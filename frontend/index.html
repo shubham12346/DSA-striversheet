@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Throttle Example</title>
+    <style>
+      body {
+        height: 2000px; /* Set a large height to allow scrolling */
+        padding: 20px;
+        font-family: Arial, sans-serif;
+      }
+      #counter {
+        position: fixed;
+        top: 100px;
+        left: 10px;
+        padding: 10px;
+        background: lightblue;
+        font-size: 24px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="counter">Scroll Count: 0</div>
+    <button id="click">Click Count: 0</button>
+
+    <script>
+      // Throttle function implementation
+      const throttle = (fn, delay) => {
+        let lastCall = 0;
+        return function (...args) {
+          const now = new Date().getTime();
+          if (now - lastCall >= delay) {
+            lastCall = now;
+            fn.apply(this, args);
+          }
+        };
+      };
+      // DOM manipulation: Updating scroll count
+      const counterElement = document.getElementById("counter");
+      let scrollCount = 0;
+      const clickElement = document.getElementById("click");
+      let clickCount = 0;
+
+      clickElement.addEventListener("click", throttle(updateCount, 1000));
+
+      // Function to update the counter on scroll
+      function updateScrollCount() {
+        scrollCount++;
+        counterElement.textContent = `Scroll Count: ${scrollCount}`;
+      }
+
+      function updateCount() {
+        clickCount++;
+        clickElement.textContent = `Click Count: ${clickCount}`;
+      }
+      // Throttling the scroll event listener to avoid excessive updates
+      const throttleUpdateCount = throttle(updateScrollCount, 1000);
+      // Adding the scroll event listener to the window
+      window.addEventListener("scroll", throttleUpdateCount);
+    </script>
+  </body>
+</html>
