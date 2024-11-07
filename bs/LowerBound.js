@@ -43,7 +43,7 @@ const lowerBound = (arr, x) => {
   while (low <= high) {
     let mid = Math.floor((low + high) / 2);
     if (arr[mid] >= x) {
-      result = mid;
+      result = arr[mid];
       high = mid - 1;
     } else {
       low = mid + 1;
@@ -52,4 +52,10 @@ const lowerBound = (arr, x) => {
   return result;
 };
 
-console.log("lowerBound", lowerBound(arr, x));
+console.log(
+  "lowerBound for x ",
+  x + " in arr",
+  arr,
+  " is : ",
+  lowerBound(arr, x)
+);
