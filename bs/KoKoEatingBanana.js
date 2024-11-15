@@ -58,3 +58,33 @@ const findLowestMax = (arr, k) => {
 };
 
 console.log("find_max_bananas_per_hour(a,h) ", find_max_bananas_per_hour(a, h));
+
+// optimizing above solution using binary search
+
+const find_max_bananas_per_hour_optimized = (arr, h) => {
+  let max_bananas_per_hour = Number.MIN_VALUE;
+  for (let ele of arr) {
+    max_bananas_per_hour = Math.max(max_bananas_per_hour, ele);
+  }
+  console.log("max_bananas_per_hour", max_bananas_per_hour);
+  let low = 1;
+  let high = max_bananas_per_hour;
+  let result = max_bananas_per_hour;
+  while (low <= high) {
+    let mid = Math.floor((low + high) / 2);
+
+    let hour = findLowestMax(arr, mid);
+    if (hour <= h) {
+      low = mid + 1;
+      result = hour;
+    } else {
+      high = mid - 1;
+    }
+  }
+  return result;
+};
+
+console.log(
+  "find_max_bananas_per_hour_optimized 1 2 ",
+  find_max_bananas_per_hour_optimized(a, h)
+);
